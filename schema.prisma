@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model StatusComponent {
+  id          Int      @id @default(autoincrement())
+  componentId String   @unique
+  name        String
+  status      String
+  groupName   String?
+  updatedAt   DateTime
+  syncedAt    DateTime @default(now())
+}
+
+model StatusIncident {
+  id         Int      @id @default(autoincrement())
+  incidentId String   @unique
+  title      String
+  status     String
+  impact     String
+  startedAt  DateTime
+  resolvedAt DateTime?
+  updatedAt  DateTime
+  syncedAt   DateTime @default(now())
+}
+
+model StatusMaintenance {
+  id             Int      @id @default(autoincrement())
+  maintenanceId  String   @unique
+  title          String
+  status         String
+  scheduledStart DateTime
+  scheduledEnd   DateTime
+  updatedAt      DateTime
+  syncedAt       DateTime @default(now())
+}
+
+model SyncLog {
+  id           Int      @id @default(autoincrement())
+  status       String
+  errorMessage String?
+  responseTime Int?
+  syncedAt     DateTime @default(now())
+}
