@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Component {
+  id          String   @id @default(cuid())
+  componentId String   @unique // ID from the source API
+  name        String
+  status      String
+  group       String?
+  updatedAt   DateTime
+  syncedAt    DateTime @default(now())
+}
+
+model Incident {
+  id         String   @id @default(cuid())
+  incidentId String   @unique
+  title      String
+  status     String
+  impact     String
+  startedAt  DateTime
+  resolvedAt DateTime?
+  updatedAt  DateTime
+  syncedAt   DateTime @default(now())
+}
+
+model Maintenance {
+  id            String   @id @default(cuid())
+  maintenanceId String   @unique
+  title         String
+  status        String
+  scheduledStart DateTime
+  scheduledEnd   DateTime
+  updatedAt      DateTime
+  syncedAt       DateTime @default(now())
+}
+
+model SyncLog {
+  id        String   @id @default(cuid())
+  status    String   // SUCCESS, FAIL
+  message   String?
+  timestamp DateTime @default(now())
+}
